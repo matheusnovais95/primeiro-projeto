@@ -3,11 +3,15 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import OlaMundo from './components/OlaMundo';
+import DimensoesFixas from './components/DimensoesFixas';
+import ChecaNumero from './components/ChecaNumero';
+import Evento from './components/Evento';
+import UsuarioGitHub from './components/UsuarioGitHub';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <OlaMundo styleOne={styles.paragrafo} styleTwo={styles.msg} nome='Jonas'/>
+     <UsuarioGitHub />
     </View>
   );
 }
