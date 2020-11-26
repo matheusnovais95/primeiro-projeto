@@ -1,5 +1,14 @@
 import React from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+  Image
+} from "react-native";
 
 class UsuarioCsGo extends React.Component {
   constructor(props) {
@@ -7,6 +16,7 @@ class UsuarioCsGo extends React.Component {
     this.state = {
       usuario: "",
       dados: {},
+      stats: {}
     };
 
     this.fetchDados = this.fetchDados.bind(this);
@@ -25,7 +35,7 @@ class UsuarioCsGo extends React.Component {
       init
     )
       .then((response) => response.json())
-      .then((json) => this.setState({ dados: json }))
+      .then((res) => this.setState({ dados: res.data.platformInfo }))    
       .catch((err) => this.setState({ dados: err }));
   }
 
@@ -34,9 +44,19 @@ class UsuarioCsGo extends React.Component {
   }
 
   render() {
+    const info = this.state.dados;
+    const stats = this.state.stats;
+
     return (
       <View style={styles.container}>
-        <Text style={styles.fontResult}>{JSON.stringify(this.state.dados)}</Text>
+        <View style={styles.containerText}>
+          <ScrollView>     
+            <Image style={styles.image} source={{uri: info.avatarUrl}}/>      
+            <Text style={styles.fontResult}>
+              {info.platformUserHandle}
+            </Text>
+          </ScrollView>
+        </View>
         <View>
           <TextInput
             placeholder="Pesquise o usuário do github"
@@ -49,9 +69,10 @@ class UsuarioCsGo extends React.Component {
         </View>
         <View>
           <Button
+            color="#ff7f00"
             onPress={this.fetchDados}
-            title="Buscar Dados"
-            accessibilityLabel="Busque os dados do usuário no GitHub"
+            title="Buscar JOGADOR"
+            accessibilityLabel="Busque os dados do jogador de CS:GO"
           />
         </View>
       </View>
@@ -63,27 +84,41 @@ export default UsuarioCsGo;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#000",
     alignItems: "center",
     justifyContent: "center",
     padding: 15,
   },
+  containerText: {
+    width: 300,
+    flex: 1,    
+    backgroundColor: "#333",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 15,
+    borderRadius: 5,
+  },
   input: {
     marginBottom: 15,
     marginTop: 15,
-    height: 30,
+    padding: 10,
+    height: 45,
     width: 300,
     fontSize: 12,
-    borderWidth: 1,
-    borderColor: "black",
-    color: "#000",
+    color: "#fff",
+    backgroundColor: "#333",
+    borderRadius: 5,
   },
   fontResult: {
-    fontSize: 13,
-    backgroundColor: "#333",
-    padding: 12,
-    borderRadius: 5,
+    fontSize: 20,
     color: "#fff",
+    textAlign: 'center'
   },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 50
+  }
 });
